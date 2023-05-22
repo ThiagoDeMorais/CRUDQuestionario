@@ -1,30 +1,46 @@
 package application;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import db.DB;
-import db.DbIntegrityException;
+import db.DbException;
 
 public class Program {
 
 	public static void main(String[] args) {
 
 		Connection conn = null;
-		PreparedStatement st = null;
+		
+		
+		Statement st = null;
 
 		try {
 			conn = DB.getConnection();
-			st = conn.prepareStatement("DELETE FROM questao " + "WHERE " + "id_questao = ?");
+			st = conn.createStatement();
+			conn.setAutoCommit(false);
 
-			st.setInt(1, 7);
+			
+			int rows1 = st.executeUpdate("UPDATE questao SET enunciado = 'claudia' WHERE id_questao = 6");
+					
+			//if(true) {
+			//	throw new SQLException("Fake error");
+			//}
+			int rows2 = st.executeUpdate("UPDATE questao SET enunciado = 'Oi' WHERE id_questao = 5");
 
-			int rowsAffected = st.executeUpdate();
-			System.out.println("Pronto! Quantidade de linhas alteradas:" + rowsAffected);
+			conn.commit();
+			
+			System.out.println("rows1 " + rows1);
+			System.out.println("rows2 " + rows2);
 
 		} catch (SQLException e) {
-			throw new DbIntegrityException(e.getMessage());
+			try {
+				conn.rollback();
+				throw new DbException("Transação não concluída" + e.getMessage());
+			} catch (SQLException e1) {
+				throw new DbException("Erro ao tentar voltar a transação" + e1.getMessage());
+			}
 		} finally {
 			DB.closeStatement(st);
 			DB.closeConnection();
