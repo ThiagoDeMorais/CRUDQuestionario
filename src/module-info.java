@@ -6,4 +6,5 @@
  *
  */
 module CRUDQuestionario {
+	requires java.sql;
 }
