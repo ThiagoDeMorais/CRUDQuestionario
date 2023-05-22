@@ -17,33 +17,24 @@ public class Program {
 		
 		try {
 			conn = DB.getConnection();
-			st = conn.prepareStatement(
-					"INSERT INTO questao "
-					+ "(enunciado)"
-					+ "VALUES "
-					+ "(?)", Statement.RETURN_GENERATED_KEYS);
-			st.setString(1, "BABY BABY DO BABY DO BIRULEIBE LEIBE");
+			st = conn.prepareStatement("UPDATE questao "
+					+ "SET enunciado = ? "
+					+ "WHERE "
+					+ "(id_questao = ?)");
+			
+			st.setString(1, "Não leibe");
+			st.setInt(2, 7);
 			
 			int rowsAffected = st.executeUpdate();
-			if(rowsAffected>0) {
-				ResultSet rs = st.getGeneratedKeys();
-				while(rs.next()) {
-					int id = rs.getInt(1);
-					System.out.println("Pronto, id = " + id);
-
-				}
-			}else {
-				System.out.println("Nenhuma linha foi alterada");
-			}
+			System.out.println("Pronto! Quantidade de linhas alteradas:" + rowsAffected);
 		
-		}
-		catch(SQLException e) {
+		}catch(SQLException e) {
 			e.printStackTrace();
-		}
-		finally {
+		}finally {
 			DB.closeStatement(st);
 			DB.closeConnection();
 		}
+
 	
 		
 
