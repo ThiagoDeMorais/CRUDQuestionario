@@ -1,36 +1,51 @@
 package application;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import db.DB;
-import db.DbException;
 
 public class Program {
 
 	public static void main(String[] args) {
 
 		Connection conn = null;
-		Statement st = null;
-		ResultSet rs = null;
-
+		PreparedStatement st = null;
+		
 		try {
 			conn = DB.getConnection();
-			st = conn.createStatement();
-			rs = st.executeQuery("select * from alternativa");
+			st = conn.prepareStatement(
+					"INSERT INTO questao "
+					+ "(enunciado)"
+					+ "VALUES "
+					+ "(?)", Statement.RETURN_GENERATED_KEYS);
+			st.setString(1, "BABY BABY DO BABY DO BIRULEIBE LEIBE");
+			
+			int rowsAffected = st.executeUpdate();
+			if(rowsAffected>0) {
+				ResultSet rs = st.getGeneratedKeys();
+				while(rs.next()) {
+					int id = rs.getInt(1);
+					System.out.println("Pronto, id = " + id);
 
-			while (rs.next()) {
-				System.out.println(rs.getInt("id_alternativa") + " - " + rs.getString("conteudo"));
+				}
+			}else {
+				System.out.println("Nenhuma linha foi alterada");
 			}
-		} catch (SQLException e) {
+		
+		}
+		catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
-			DB.closeResultSet(rs);
+		}
+		finally {
 			DB.closeStatement(st);
 			DB.closeConnection();
 		}
+	
+		
 
 	}
 
