@@ -3,17 +3,17 @@ package model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Questao implements Serializable {
+public class Pergunta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String enunciado;
 	
-	public Questao() {
+	public Pergunta() {
 		
 	}
 	
-	public Questao(String enunciado) {
+	public Pergunta(String enunciado) {
 		this.enunciado = enunciado;
 	}
 
@@ -46,7 +46,7 @@ public class Questao implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Questao other = (Questao) obj;
+		Pergunta other = (Pergunta) obj;
 		return id == other.id;
 	}
 
