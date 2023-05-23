@@ -9,13 +9,13 @@ public class Alternativa implements Serializable{
 	private Integer id;
 	private String conteudo;
 	private boolean ehVerdadeira;
-	private Integer pergunta;
+	private Pergunta pergunta;
 	
 	public Alternativa() {
 		
 	}
 
-	public Alternativa(String conteudo, boolean ehVerdadeira, Integer pergunta) {
+	public Alternativa(String conteudo, boolean ehVerdadeira, Pergunta pergunta) {
 		this.conteudo = conteudo;
 		this.ehVerdadeira = ehVerdadeira;
 		this.pergunta = pergunta;
@@ -45,11 +45,11 @@ public class Alternativa implements Serializable{
 		this.ehVerdadeira = ehVerdadeira;
 	}
 
-	public Integer getPergunta() {
+	public Pergunta getPergunta() {
 		return pergunta;
 	}
 
-	public void setPergunta(Integer pergunta) {
+	public void setPergunta(Pergunta pergunta) {
 		this.pergunta = pergunta;
 	}
 
