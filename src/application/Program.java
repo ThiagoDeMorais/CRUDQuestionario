@@ -38,6 +38,14 @@ public class Program {
 		Alternativa novaAlternativa = new Alternativa("Todas estao certas", false, pergunta);
 		alternativaDao.insert(novaAlternativa);
 		System.out.println("Inserido! Novo id igual a " + novaAlternativa.getId());
+		
+		System.out.println("\n=== TESTE 5: Alternativa Update ===");
+		alternativa = alternativaDao.findById(1);
+		alternativa.setConteudo("Não sei");
+		
+		alternativaDao.update(alternativa);
+		
+
 	}
 
 }

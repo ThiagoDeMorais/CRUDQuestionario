@@ -61,8 +61,25 @@ public class AlternativaDaoJDBC implements AlternativaDao {
 
 	@Override
 	public void update(Alternativa obj) {
-		// TODO Auto-generated method stub
-
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("UPDATE Alternativa\r\n"
+					+ "SET id_pergunta = ?, conteudo = ?, eh_verdadeira = ?\r\n"
+					+ "WHERE id = ?",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			st.setInt(1, obj.getPergunta().getId());
+			st.setString(2, obj.getConteudo());
+			st.setString(3, obj.EhVerdadeira() == true ? "V":"F");
+			st.setInt(4, obj.getId());
+			
+			st.executeUpdate();
+			
+		}catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
