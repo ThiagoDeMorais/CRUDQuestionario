@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +25,42 @@ public class AlternativaDaoJDBC implements AlternativaDao {
 	}
 
 	@Override
-	public void insert(AlternativaDao obj) {
-		// TODO Auto-generated method stub
-
+	public void insert(Alternativa obj) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("INSERT INTO \r\n"
+					+ "Alternativa (id_pergunta, conteudo, eh_verdadeira) \r\n"
+					+ "VALUES (?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			st.setInt(1, obj.getPergunta().getId());
+			st.setString(2, obj.getConteudo());
+			st.setString(3, obj.EhVerdadeira() == true ? "V":"F");
+			
+			int rowsAffected = st.executeUpdate();
+			
+			if(rowsAffected>0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if(rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(rs);
+			}else {
+				throw new DbException("Erro inesperado, nenhumk linha alterada!");
+			}
+		}catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+		}
+		
+		
+		
 	}
 
 	@Override
-	public void update(AlternativaDao obj) {
+	public void update(Alternativa obj) {
 		// TODO Auto-generated method stub
 
 	}

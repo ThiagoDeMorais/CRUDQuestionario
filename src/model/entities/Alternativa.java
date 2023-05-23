@@ -8,7 +8,7 @@ public class Alternativa implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String conteudo;
-	private boolean ehVerdadeira;
+	private Boolean ehVerdadeira;
 	private Pergunta pergunta;
 	
 	public Alternativa() {
@@ -37,11 +37,11 @@ public class Alternativa implements Serializable{
 		this.conteudo = conteudo;
 	}
 
-	public boolean isEhVerdadeira() {
+	public Boolean EhVerdadeira() {
 		return ehVerdadeira;
 	}
 
-	public void setEhVerdadeira(boolean ehVerdadeira) {
+	public void setEhVerdadeira(Boolean ehVerdadeira) {
 		this.ehVerdadeira = ehVerdadeira;
 	}
 

@@ -33,6 +33,11 @@ public class Program {
 		for(Alternativa obj : list) {
 			System.out.println(obj);
 		}
+		
+		System.out.println("\n=== TESTE 4: Alternativa Insert ===");
+		Alternativa novaAlternativa = new Alternativa("Todas estao certas", false, pergunta);
+		alternativaDao.insert(novaAlternativa);
+		System.out.println("Inserido! Novo id igual a " + novaAlternativa.getId());
 	}
 
 }
