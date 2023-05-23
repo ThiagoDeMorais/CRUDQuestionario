@@ -55,8 +55,6 @@ public class AlternativaDaoJDBC implements AlternativaDao {
 			DB.closeStatement(st);
 		}
 		
-		
-		
 	}
 
 	@Override
