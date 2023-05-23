@@ -26,6 +26,13 @@ public class Program {
 		for(Alternativa obj : list) {
 			System.out.println(obj);
 		}
+		
+		System.out.println("\n=== TESTE 3: Alternativa findAll ===");
+		list = alternativaDao.findAll();
+
+		for(Alternativa obj : list) {
+			System.out.println(obj);
+		}
 	}
 
 }

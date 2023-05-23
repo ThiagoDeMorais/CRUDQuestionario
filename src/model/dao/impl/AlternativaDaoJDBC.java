@@ -85,8 +85,36 @@ public class AlternativaDaoJDBC implements AlternativaDao {
 
 	@Override
 	public List<Alternativa> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT alternativa.*,pergunta.enunciado as enunciado\r\n"
+					+ "FROM alternativa INNER JOIN pergunta\r\n" + "ON alternativa.id_pergunta = pergunta.id\r\n"
+					+ "ORDER BY id");
+
+			rs = st.executeQuery();
+
+			List<Alternativa> list = new ArrayList<>();
+			Map<Integer, Pergunta> map = new HashMap<>();
+
+			while (rs.next()) {
+				Pergunta per = map.get(rs.getInt("id_pergunta"));
+
+				if (per == null) {
+					per = instantiatePergunta(rs);
+					map.put(rs.getInt("id_pergunta"), per);
+				}
+
+				Alternativa obj = instantiateAlternativa(rs, per);
+				list.add(obj);
+			}
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
