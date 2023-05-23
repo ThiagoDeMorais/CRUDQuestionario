@@ -51,14 +51,8 @@ public class AlternativaDaoJDBC implements AlternativaDao {
 			st.setInt(1, id);		
 			rs = st.executeQuery();
 			if(rs.next()) {
-				Pergunta per = new Pergunta();
-				per.setId(rs.getInt("id_pergunta"));
-				per.setEnunciado(rs.getString("enunciado_da_pergunta"));
-				Alternativa obj = new Alternativa();
-				obj.setId(rs.getInt("id"));
-				obj.setConteudo(rs.getString("conteudo"));
-				obj.setEhVerdadeira(rs.getString("eh_verdadeira") == "V" ? true: false);
-				obj.setPergunta(per);
+				Pergunta per = instantiatePergunta(rs);
+				Alternativa obj = instantiateAlternativa(rs,per);
 				return obj;
 				
 				
@@ -72,6 +66,22 @@ public class AlternativaDaoJDBC implements AlternativaDao {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
+	}
+
+	private Alternativa instantiateAlternativa(ResultSet rs, Pergunta per) throws SQLException {
+		Alternativa obj = new Alternativa();
+		obj.setId(rs.getInt("id"));
+		obj.setConteudo(rs.getString("conteudo"));
+		obj.setEhVerdadeira(rs.getString("eh_verdadeira") == "V" ? true: false);
+		obj.setPergunta(per);		
+		return obj;
+	}
+
+	private Pergunta instantiatePergunta(ResultSet rs) throws SQLException {
+		Pergunta per  = new Pergunta();
+		per.setId(rs.getInt("id_pergunta"));
+		per.setEnunciado(rs.getString("enunciado_da_pergunta"));
+		return per;
 	}
 
 	@Override
